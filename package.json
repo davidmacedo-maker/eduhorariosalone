@@ -1,22 +1,32 @@
 {
-  "name": "workspace",
-  "version": "0.0.0",
-  "license": "MIT",
-  "packageManager": "pnpm@9.0.0",
-  "scripts": {
-    "preinstall": "sh -c 'rm -f package-lock.json yarn.lock; if [ \"$RENDER\" = \"true\" ]; then echo \"On Render, bypassing\"; else case \"$npm_config_user_agent\" in pnpm/*) ;; *) echo \"Use pnpm instead\" >&2; exit 1 ;; esac; fi'",
-    "build": "pnpm run typecheck && pnpm -r --if-present run build",
-    "typecheck:libs": "tsc --build",
-    "typecheck": "pnpm run typecheck:libs && pnpm -r --filter \"./artifacts/**\" --filter \"./scripts\" --if-present run typecheck"
-  },
+  "name": "eduhorariosalone",
   "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit"
+  },
   "dependencies": {
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "lucide-react": "^0.400.0",
+    "wouter": "^3.3.1",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.2/xlsx-0.20.2.tgz",
+    "zod": "^3.23.8",
+    "react-hook-form": "^7.52.1",
+    "@hookform/resolvers": "^3.9.0",
+    "sonner": "^1.5.0",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^2.4.0"
   },
   "devDependencies": {
     "typescript": "~5.5.3",
-    "prettier": "^3.8.1",
+    "vite": "^5.3.3",
+    "@vitejs/plugin-react": "^4.3.1",
+    "@tailwindcss/vite": "^4.0.0-alpha.1",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@types/node": "^20.14.9"
