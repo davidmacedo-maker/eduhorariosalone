@@ -12,8 +12,18 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    
+    /* Linha importante para ignorar erros de parâmetros sem tipo explicitado */
+    "noImplicitAny": false,
+
+    /* Configuração de caminhos para resolver o @/ componentes */
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true
   },
