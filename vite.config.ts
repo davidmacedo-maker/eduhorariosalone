@@ -16,6 +16,13 @@ export default defineConfig({
     },
     dedupe: ["react", "react-dom"],
   },
+  build: {
+    outDir: "dist",
+    assetsDir: "assets",
+    emptyOutDir: true,
+    sourcemap: false,
+    chunkSizeWarningLimit: 1000,
+  },
   server: {
     port: 5173,
     host: "0.0.0.0",
