@@ -1,3 +1,5 @@
+import React from "react";
+// ... as outras importações do arquivo (useState, useForm, etc) continuam vindo abaixo dela
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
