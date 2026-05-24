@@ -1,0 +1,104 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "LL09dTw1O6ov1X1Gd6l8R"
+uri = "file://eduhorarios.zip"
+type = "unspecified"
+title = "EduHorários — Versão Final Standalone"
+
+[[outputs]]
+id = "BKyhrivBoJUZ0FXaIQKOa"
+uri = "file://eduhorarios-standalone.zip"
+type = "unspecified"
+title = "EduHorários — Versão Standalone (roda no seu PC)"
+
+[[outputs]]
+id = "lsHOwjEDnF7x26hMUHlf2"
+uri = "file://launcher-win/EduHorarios-Windows.zip"
+type = "unspecified"
+title = "EduHorários — Launcher para Windows"
+
+[[outputs]]
+id = "3nOn_S7MgKorbezEIHzX4"
+uri = "file://launcher-win/cronos-para-eduhorarios.json"
+type = "unspecified"
+title = "Cronos → EduHorários (JSON de importação)"
+
+[[outputs]]
+id = "RCveLeTC75I4SEeWZJCmm"
+uri = "file://attached_assets/cronos-importer-java.tar.gz"
+type = "unspecified"
+title = "Cronos Importer (Java) — código-fonte"
+
+[[outputs]]
+id = "wHF-a1BVDJue-NHidMRY4"
+uri = "file://attached_assets/Matutino_EE_Sul_America.json"
+type = "unspecified"
+title = "Matutino — EE Sul América (importar primeiro)"
+
+[[outputs]]
+id = "fMfNLLESKijtgC22YxnLb"
+uri = "file://attached_assets/Vespertino_EE_Sul_America.json"
+type = "unspecified"
+title = "Vespertino — EE Sul América (importar segundo)"
+
+[[outputs]]
+id = "XqGYyznmoRZqVmgqLndYq"
+uri = "file://EduHorarios_projeto.zip"
+type = "unspecified"
+title = "EduHorários — Projeto Completo (.zip)"
+
+[[outputs]]
+id = "eCv8QbB5Hv6wFrSSlh7-J"
+uri = "file://EduHorarios_GitHub.zip"
+type = "unspecified"
+title = "EduHorários — Pronto para GitHub (.zip)"
+
+[[outputs]]
+id = "DSYseTbHZH0siIoispXAi"
+uri = "file://artifacts/school-scheduler/dist/singlefile/EduHorarios.zip"
+type = "unspecified"
+title = "EduHorários.zip — Abrir no browser sem instalar nada"
+
+[[outputs]]
+id = "-0Q7jBotnaNsATo2u6Q5W"
+uri = "file://artifacts/school-scheduler/dist/EduHorarios-servidor.zip"
+type = "unspecified"
+title = "EduHorários — Servidor Web (hash routing)"
+
+[[outputs]]
+id = "jyfENQ6dteV09J-T4T6ha"
+uri = "file://artifacts/school-scheduler/dist/EduHorarios-github-pages.zip"
+type = "unspecified"
+title = "EduHorários — GitHub Pages (hash routing)"
+
+[[outputs]]
+id = "cMkxAgJ9jldrHQISccj__"
+uri = "file://EduHorarios.zip"
+type = "unspecified"
+title = "EduHorários — código fonte completo (245 KB)"
+
+[[outputs]]
+id = "sDXIKlH4B7dDdzsHM5PIo"
+uri = "file://EduHorarios-github.zip"
+type = "unspecified"
+title = "EduHorários — pronto para GitHub (246 KB)"
+
+[[outputs]]
+id = "eT4qWE7jAjQM1y5VYrH08"
+uri = "file://EduHorarios-GitHub-Pages.zip"
+type = "unspecified"
+title = "EduHorários — build GitHub Pages com pasta assets/ (451 KB)"
+
+[[outputs]]
+id = "lnngeWbPzrY0ayEJudIzY"
+uri = "file://school-scheduler-github.zip"
+type = "unspecified"
+title = "school-scheduler-github.zip"
+
+[[outputs]]
+id = "AZ_Zy-gf0bKnwYlNntS1w"
+uri = "file://artifacts/school-scheduler/dist/EduHorarios-completo.zip"
+type = "unspecified"
+title = "EduHorários — Código Fonte Completo"
