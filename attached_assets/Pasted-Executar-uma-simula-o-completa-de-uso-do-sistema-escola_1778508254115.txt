@@ -1,0 +1,156 @@
+Executar uma simulação completa de uso do sistema escolar, testando automaticamente todos os campos, cadastros, horários de professores e o módulo de livro de ponto.
+
+Objetivo:
+Simular o uso real do sistema como se estivesse sendo utilizado diariamente por uma escola.
+
+1. Simulação de Cadastro:
+   Criar automaticamente dados fictícios para testar:
+
+* professores;
+* turmas;
+* disciplinas;
+* horários;
+* matriz curricular;
+* livro de ponto.
+
+2. Testar Cadastro de Professores:
+   Verificar:
+
+* criação;
+* edição;
+* exclusão;
+* atualização parcial;
+* salvamento;
+* carregamento automático.
+
+Testar campos:
+
+* nome;
+* MASP;
+* admissão;
+* efetivo/designado;
+* disciplinas;
+* turmas;
+* disponibilidade;
+* carga horária.
+
+3. Simulação de Horários:
+   Gerar horários automáticos para:
+
+* manhã;
+* tarde;
+* noite.
+
+Verificar:
+
+* conflitos de horários;
+* professor em duas turmas;
+* excesso de carga horária;
+* aulas duplicadas;
+* horários vazios;
+* distribuição correta das disciplinas.
+
+4. Teste do Livro de Ponto:
+   Simular:
+
+* presença;
+* faltas;
+* reuniões;
+* feriados;
+* planejamento;
+* preenchimento automático;
+* observações;
+* assinatura;
+* símbolos personalizados.
+
+Verificar:
+
+* edição dinâmica;
+* preenchimento automático;
+* campos editáveis;
+* alinhamento;
+* funcionamento dos atalhos.
+
+5. Regras Especiais:
+   Testar:
+
+* sábados;
+* domingos;
+* feriados nacionais;
+* reuniões pedagógicas;
+* conselho de classe;
+* eventos escolares.
+
+Validar:
+
+* símbolos automáticos;
+* preenchimento inteligente;
+* centralização;
+* cores;
+* legendas.
+
+6. Impressão:
+   Executar testes completos de impressão:
+
+* folha A4;
+* PDF;
+* quebra de páginas;
+* alinhamento;
+* tabelas;
+* cabeçalhos;
+* espaço útil da folha.
+
+Corrigir automaticamente:
+
+* cortes;
+* espaços vazios;
+* sobreposição;
+* tabelas quebradas.
+
+7. Responsividade:
+   Testar em:
+
+* celular;
+* tablet;
+* notebook;
+* desktop.
+
+Verificar:
+
+* botões;
+* menus;
+* tabelas;
+* modais;
+* formulários.
+
+8. Performance:
+   Analisar:
+
+* lentidão;
+* travamentos;
+* renderização;
+* salvamento;
+* memória.
+
+9. Relatório Final:
+   Gerar relatório contendo:
+
+* erros encontrados;
+* problemas de layout;
+* falhas de lógica;
+* conflitos de horários;
+* falhas no livro de ponto;
+* melhorias sugeridas.
+
+10. Correções Automáticas:
+    Corrigir automaticamente:
+
+* CSS quebrado;
+* botões inacessíveis;
+* problemas de impressão;
+* conflitos de horário;
+* campos não editáveis;
+* bugs simples.
+
+11. Objetivo Final:
+    O sistema deve ficar funcional, estável, responsivo e pronto para uso escolar real.

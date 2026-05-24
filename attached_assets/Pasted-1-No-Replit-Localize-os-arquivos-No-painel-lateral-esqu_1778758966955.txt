@@ -1,0 +1,107 @@
+1. No Replit: Localize os arquivos
+No painel lateral esquerdo do Replit, você deve encontrar os arquivos que você me enviou: ImportadorCSV.jsx e importar.tsx.
+
+2. Código Completo: ImportadorCSV.jsx
+Substitua todo o conteúdo deste arquivo pelo código abaixo. Ele cria uma estrutura hierárquica (Turno > ID) para que um turno nunca apague o outro.
+
+JavaScript
+import React, { useState } from 'react';
+import Papa from 'papaparse';
+import { db } from './firebase'; 
+import { ref, update } from 'firebase/database';
+
+const ImportadorCSV = () => {
+  const [data, setData] = useState([]);
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      Papa.parse(file, {
+        header: true,
+        skipEmptyLines: true,
+        complete: (results) => {
+          setData(results.data);
+        },
+      });
+    }
+  };
+
+  const handleSave = async () => {
+    if (data.length === 0) {
+      alert("Selecione um arquivo CSV primeiro.");
+      return;
+    }
+
+    const updates = {};
+
+    data.forEach((item, index) => {
+      // 1. Pegamos as informações essenciais da planilha
+      // Ajuste os nomes entre aspas se na sua planilha estiver escrito diferente
+      const turno = (item.Turno || item.turno || "Geral").trim();
+      const dia = (item.Dia || item.dia_semana || "Dia").trim();
+      const turma = (item.Turma || item.turma || "SemTurma").trim();
+      const aulaLabel = (item.Aula || item.horario || index).toString().trim();
+
+      // 2. Criamos uma chave que separa fisicamente os turnos no banco
+      // O Firebase vai criar: horarios -> Matutino -> ChaveUnica
+      const idRegistro = `${dia}_${turma}_${aulaLabel}`.replace(/[.#$[\]]/g, "_");
+
+      // Salva o dado da aula
+      updates[`/horarios/${turno}/${idRegistro}`] = item;
+
+      // 3. RESOLVENDO O SEU ERRO DE CONFIGURAÇÃO:
+      // Salvamos a configuração de horário específica para aquele TURNO
+      if (item.horario_inicio) {
+         updates[`/config_horarios/${turno}/${aulaLabel}`] = {
+           inicio: item.horario_inicio,
+           fim: item.horario_fim || ""
+         };
+      }
+    });
+
+    try {
+      await update(ref(db), updates);
+      alert("Sucesso! Turnos separados corretamente no sistema.");
+      setData([]);
+    } catch (error) {
+      console.error("Erro:", error);
+      alert("Erro ao salvar: " + error.message);
+    }
+  };
+
+  return (
+    <div style={{ padding: '20px', backgroundColor: '#f9f9f9', borderRadius: '8px' }}>
+      <h3>Importador de Grade Escolar</h3>
+      <input type="file" accept=".csv" onChange={handleFileUpload} />
+      <p>{data.length} linhas detectadas.</p>
+      <button 
+        onClick={handleSave}
+        style={{ backgroundColor: '#28a745', color: 'white', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer' }}
+      >
+        Sincronizar com Banco de Dados
+      </button>
+    </div>
+  );
+};
+
+export default ImportadorCSV;
+3. O que você deve alterar no arquivo de exibição (ex: importar.tsx)
+Para que o sistema pare de mostrar 13:00 no lugar de 07:00, o código que lê os horários também precisa saber de qual turno estamos falando.
+
+Procure a função que busca os dados (provavelmente um onValue ou get do Firebase) e altere o caminho:
+
+Como deve ficar a leitura:
+
+TypeScript
+// Em vez de ler: ref(db, 'config_horarios')
+// Você deve ler passando o turno:
+const turnoDesejado = "Matutino"; // Ou "Vespertino", vindo de um estado/filtro
+const horarioRef = ref(db, `config_horarios/${turnoDesejado}`);
+Resumo das alterações no Replit:
+Estrutura de Dados: O código acima muda o endereço no Firebase de /horarios/aula para /horarios/TURNO/aula. Isso é o que impede a sobrescrita.
+
+Configuração de Horário: Adicionei a parte que salva o horário de início/fim dentro da pasta do turno (/config_horarios/${turno}/...).
+
+No Replit: Após colar o código, clique em "Run" no topo. O Replit vai atualizar o servidor automaticamente.
+
+Atenção: Como você mudou a estrutura, os horários antigos que estavam "soltos" no banco podem não aparecer mais. Você precisará importar o arquivo da Manhã e o da Tarde novamente usando esse novo código para que eles se organizem nas pastas novas.

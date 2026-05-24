@@ -1,0 +1,95 @@
+Corrigir o sistema de importação/exportação de horários escolares relacionados aos turnos matutino e vespertino.
+
+Problema identificado:
+
+Atualmente o sistema apresenta falhas ao importar ou exportar arquivos contendo mais de um turno.
+
+Exemplo:
+
+* o horário matutino exporta corretamente;
+* porém o horário vespertino não aparece automaticamente no sistema após importação.
+
+O usuário precisa:
+
+* ativar manualmente o turno;
+* reconfigurar novamente os horários;
+* redefinir horário inicial;
+* configurar duração das aulas novamente.
+
+Isso não deve acontecer.
+
+Correções necessárias:
+
+1. Importação Inteligente:
+   O sistema deve identificar automaticamente:
+
+* turno matutino;
+* turno vespertino;
+* turno noturno;
+* horários vinculados;
+* duração das aulas;
+* intervalos;
+* quantidade de horários.
+
+2. Ativação Automática:
+   Ao importar um arquivo:
+
+* todos os turnos existentes no arquivo devem ser ativados automaticamente;
+* sem necessidade de ativação manual pelo usuário.
+
+3. Persistência das Configurações:
+   O sistema deve manter automaticamente:
+
+* horário inicial;
+* horário final;
+* duração das aulas;
+* intervalos;
+* quantidade de horários por turno.
+
+Exemplo:
+Se o arquivo possuir:
+
+* Matutino → início 07:00;
+* Vespertino → início 13:00;
+
+essas configurações devem ser restauradas automaticamente após importação.
+
+4. Estrutura de Dados:
+   Garantir que cada turno possua:
+
+* configuração própria;
+* horários independentes;
+* persistência separada;
+* carregamento automático.
+
+5. Interface:
+   Após importar:
+
+* mostrar automaticamente todos os turnos disponíveis;
+* atualizar a interface sem necessidade de recarregar;
+* evitar ocultação de horários.
+
+6. Verificação:
+   Testar:
+
+* exportação;
+* importação;
+* múltiplos turnos;
+* salvamento;
+* restauração completa.
+
+7. Objetivo:
+   O usuário deve conseguir:
+
+* exportar;
+* importar;
+* restaurar horários completos;
+
+sem precisar reconfigurar:
+
+* turnos;
+* horários iniciais;
+* duração das aulas;
+* intervalos.
+
+O processo deve ser totalmente automático e transparente ao usuário.

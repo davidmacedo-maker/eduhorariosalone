@@ -1,0 +1,44 @@
+======================================================
+  EduHorarios - Gestao de Horarios Escolares
+  Launcher para Windows
+======================================================
+
+COMO INSTALAR
+-------------
+1. Copie esta pasta (EduHorarios) para um local permanente
+   no seu computador (ex: C:\Programas\EduHorarios)
+
+2. Clique duas vezes em:
+      Instalar-Atalho.bat
+
+   Isso cria automaticamente um atalho "EduHorarios"
+   no seu Desktop.
+
+3. A partir dai, abra o sistema pelo atalho no Desktop.
+
+
+COMO FUNCIONA
+-------------
+- O sistema abre no Chrome ou Edge em modo "aplicacao"
+  (sem barra de endereco, parece um programa instalado).
+- Os seus dados ficam guardados no proprio computador
+  (localStorage do browser).
+- Requer ligacao a internet.
+
+
+REQUISITOS
+----------
+- Windows 10 ou superior
+- Google Chrome ou Microsoft Edge instalado
+- Ligacao a internet
+
+
+SUPORTE
+-------
+Se o atalho nao abrir, clique duas vezes directamente em:
+   EduHorarios.vbs
+
+Ou abra o browser e aceda a:
+   https://b1db7b98-c469-4235-b318-2be891446309-00-1ogjefz937f7e.picard.replit.dev
+
+======================================================

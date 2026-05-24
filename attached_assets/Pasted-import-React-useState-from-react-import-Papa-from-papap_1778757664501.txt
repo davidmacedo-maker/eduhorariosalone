@@ -1,0 +1,74 @@
+import React, { useState } from 'react';
+import Papa from 'papaparse';
+import { db } from './firebase'; 
+import { ref, update } from 'firebase/database';
+
+const ImportadorCSV = () => {
+  const [data, setData] = useState([]);
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      Papa.parse(file, {
+        header: true,
+        skipEmptyLines: true,
+        complete: (results) => {
+          console.log("Dados lidos do CSV:", results.data); // Para você ver no F12 se leu certo
+          setData(results.data);
+        },
+      });
+    }
+  };
+
+  const handleSave = async () => {
+    if (data.length === 0) {
+      alert("Selecione um arquivo CSV primeiro.");
+      return;
+    }
+
+    const updates = {};
+
+    data.forEach((item, index) => {
+      // Criando um ID que mistura os dados para garantir que Manhã e Tarde sejam diferentes
+      // Se suas colunas tiverem nomes diferentes no Excel, mude os nomes abaixo:
+      const turno = (item.Turno || item.turno || "Geral").trim();
+      const turma = (item.Turma || item.turma || index).trim();
+      const dia = (item.Dia || item.dia_semana || "Dia").trim();
+      const aula = (item.Aula || item.horario || index).toString().trim();
+
+      // Esse ID evita que a tarde sobrescreva a manhã
+      const idUnico = `${turno}_${turma}_${dia}_${aula}`.replace(/[.#$[\]]/g, "_");
+
+      updates[`/horarios/${idUnico}`] = item;
+    });
+
+    try {
+      // O 'update' na raiz ('/') aplicando o objeto 'updates' 
+      // é a forma correta de mesclar dados no Firebase Realtime Database
+      await update(ref(db), updates);
+      alert("Importação concluída! Os dados novos foram somados aos antigos.");
+      setData([]);
+    } catch (error) {
+      console.error("Erro detalhado:", error);
+      alert("Erro ao salvar: " + error.message);
+    }
+  };
+
+  return (
+    <div style={{ padding: '20px', border: '1px solid #ccc', borderRadius: '8px' }}>
+      <h3>Importador de Horários</h3>
+      <input type="file" accept=".csv" onChange={handleFileUpload} />
+      <button 
+        onClick={handleSave} 
+        style={{ marginLeft: '10px', padding: '5px 15px', cursor: 'pointer' }}
+      >
+        Salvar no Banco de Dados
+      </button>
+      <p style={{ fontSize: '12px', color: '#666' }}>
+        {data.length} linhas carregadas.
+      </p>
+    </div>
+  );
+};
+
+export default ImportadorCSV;

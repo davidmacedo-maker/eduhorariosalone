@@ -1,0 +1,54 @@
+1. Comando para o Replit Agent
+Copie e cole este comando exatamente no chat do Replit:
+
+"Corrija o erro de exportação onde o turno da tarde sobrescreve o da manhã. Implemente o Firebase Firestore para salvar as alterações.
+
+Horários Fixos: Force as configurações iniciais para:
+
+Manhã: Início 07:00, aulas de 50min, intervalo de 15min após a 3ª aula.
+
+Tarde: Início 12:00, aulas de 50min, intervalo de 15min após a 3ª aula.
+
+Evitar Sobrescrita: Salve os dados no Firebase usando documentos separados ('manha' e 'tarde') para que a exportação de um turno não altere o outro.
+
+Configuração Firebase: Crie um arquivo firebaseConfig.js e integre-o ao index.html.
+
+Caminhos: Mantenha os assets como ./assets/ no index.html para evitar página em branco no GitHub."
+
+2. O que será alterado no seu index.html
+Para que o Firebase funcione e o menu de configurações apareça automaticamente conforme solicitado anteriormente, o código no <head> do seu index.html deve ser atualizado para algo semelhante a isto:
+
+HTML
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+  import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+
+  // Configuração que o Replit Agent deve preencher
+  const firebaseConfig = { /* Suas Credenciais */ };
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // Forçar abertura do menu config
+  localStorage.setItem('menuOpen', 'true');
+  localStorage.setItem('activeTab', 'configuracoes');
+
+  // Lógica para fixar horários e evitar erro de 07:00 para 13:00
+  const configurarTurno = async (turno, hInicio) => {
+    await setDoc(doc(db, "configuracoes", turno), {
+      inicio: hInicio,
+      duracaoAula: 50,
+      intervalo: 15,
+      ordemIntervalo: 3
+    }, { merge: true });
+  };
+
+  // Inicializa turnos separadamente para não sobrescrever
+  configurarTurno('manha', '07:00');
+  configurarTurno('tarde', '12:00');
+</script>
+3. Considerações Importantes para o GitHub
+Página em Branco: Certifique-se de que o Replit não remova o ponto antes da barra (./assets/) nos links de script e CSS, pois isso é o que mantém o site funcionando no GitHub Pages.
+
+Redirecionamento: O arquivo 404.html deve ser mantido como um redirecionador para a página inicial, garantindo que o usuário nunca fique preso em uma página de erro ao exportar ou recarregar.
+
+Segurança: Ao usar Firebase no GitHub (que é público), lembre-se de configurar as "Security Rules" no console do Firebase para que apenas o seu app possa gravar dados.

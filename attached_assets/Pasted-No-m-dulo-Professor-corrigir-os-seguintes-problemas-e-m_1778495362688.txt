@@ -1,0 +1,131 @@
+No módulo “Professor”, corrigir os seguintes problemas e melhorar a experiência do usuário:
+
+1. Problema no botão “Salvar”:
+   Quando o usuário acessa o menu:
+
+* Professor → Cadastro
+
+e utiliza:
+
+* computador;
+* notebook;
+
+o botão “Salvar” não está funcionando corretamente ou não pode ser clicado/pressionado.
+
+Porém, no celular o botão funciona normalmente.
+
+Verificar possíveis problemas relacionados a:
+
+* responsividade;
+* sobreposição de elementos;
+* z-index;
+* overflow;
+* modal;
+* tamanho da tela;
+* CSS responsivo;
+* bloqueio por validação;
+* footer fixo;
+* posicionamento do botão.
+
+Corrigir para que o botão “Salvar” funcione corretamente em:
+
+* desktop;
+* notebook;
+* tablet;
+* celular.
+
+2. Problema de obrigatoriedade excessiva:
+   Atualmente, ao editar um professor, o usuário só consegue sair da tela se preencher todas as alterações exigidas pelo sistema.
+
+Isso não é necessário.
+
+O sistema deve permitir:
+
+* editar apenas uma informação;
+* salvar somente o campo alterado;
+* cancelar edição sem obrigatoriedade;
+* sair da tela sem preencher todos os campos novamente.
+
+Exemplo:
+Se o usuário quiser alterar apenas:
+
+* MASP;
+* telefone;
+* vínculo;
+* disciplina;
+
+ele deve conseguir salvar apenas essa alteração.
+
+Melhorar a lógica de atualização parcial do cadastro.
+
+3. Livro de Ponto – Campo Observações:
+   No módulo:
+
+* Livro de Ponto
+
+o campo:
+
+* Observações
+
+deve permanecer em branco por padrão para preenchimento manual posterior.
+
+Não preencher automaticamente esse campo.
+
+4. Ferramenta de preenchimento automático:
+   Adicionar uma ferramenta inteligente para preenchimento coletivo nos campos do livro de ponto.
+
+Exemplo:
+Nos campos:
+
+* 1ª aula;
+* 2ª aula;
+* 3ª aula;
+
+quando estiverem vazios, o usuário deve conseguir inserir automaticamente:
+
+* reuniões;
+* feriados;
+* planejamento;
+* conselho de classe;
+* ponto facultativo;
+* eventos;
+* outros textos personalizados.
+
+Criar uma função de:
+
+* preenchimento em massa;
+* preenchimento automático;
+* aplicação em múltiplos campos simultaneamente.
+
+Exemplo prático:
+Selecionar:
+
+* todos os horários vazios do dia;
+* ou todos os horários da semana;
+
+e aplicar automaticamente:
+
+* “Reunião Pedagógica”;
+* “Feriado”;
+* “Planejamento Escolar”.
+
+5. Caracteres especiais e personalização:
+   Permitir:
+
+* caracteres especiais;
+* emojis simples;
+* abreviações;
+* observações personalizadas;
+* textos rápidos.
+
+6. Usabilidade:
+   Criar interface mais intuitiva:
+
+* seleção múltipla;
+* preenchimento rápido;
+* menu contextual;
+* atalhos de edição;
+* confirmação visual após preenchimento.
+
+Objetivo:
+Melhorar significativamente a experiência do usuário e agilizar o preenchimento do livro de ponto escolar.

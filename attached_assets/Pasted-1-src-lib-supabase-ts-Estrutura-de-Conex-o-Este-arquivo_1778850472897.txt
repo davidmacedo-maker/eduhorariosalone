@@ -1,0 +1,247 @@
+1. src/lib/supabase.ts (Estrutura de Conexão)
+Este arquivo inicializa a ponte de comunicação entre o seu frontend e o banco de dados do Supabase. Crie esse arquivo para centralizar as chamadas:
+
+TypeScript
+import { createClient } from '@supabase/supabase-js';
+
+// Substitua com as credenciais reais obtidas no painel do seu Supabase
+const supabaseUrl = 'SUA_URL_DO_SUPABASE';
+const supabaseAnonKey = 'SUA_CHAVE_ANONIMA_DO_SUPABASE';
+
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+2. src/pages/AuthPage.tsx (Layout Completo da Página Inicial / Cadastro)
+Este arquivo contém a interface visual estilizada com Tailwind CSS. Ela contém os campos: Nome, Nome de Usuário, E-mail (Recuperação) e Senha, além de alternar suavemente entre o modo de Cadastro e Login.
+
+TypeScript
+import React, { useState } from 'react';
+import { useLocation } from 'wouter';
+import { supabase } from '../lib/supabase';
+import { Button } from '@/components/ui/button'; // Usando seus componentes shadcn se preferir, ou botões nativos
+import { toast } from 'sonner';
+
+export default function AuthPage() {
+  const [, setLocation] = useLocation();
+  const [isRegistering, setIsRegistering] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  // Estados dos campos do formulário
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [fullName, setFullName] = useState('');
+  const [username, setUsername] = useState('');
+
+  // Função para lidar com o Login
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) throw error;
+
+      toast.success('Login realizado com sucesso!');
+      setLocation('/dashboard'); // Redireciona para o sistema
+    } catch (error: any) {
+      toast.error(error.message || 'Erro ao fazer login. Verifique os dados.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Função para lidar com o Cadastro Completo
+  const handleRegister = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      // 1. Cria o usuário no Supabase Auth usando o e-mail de recuperação
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        email,
+        password,
+      });
+
+      if (authError) throw authError;
+
+      if (authData.user) {
+        // 2. Insere os dados adicionais do perfil (Nome e Username) na tabela de perfis vinculada ao ID criado
+        const { error: profileError } = await supabase
+          .from('perfis_usuarios')
+          .insert([
+            {
+              id: authData.user.id,
+              nome_completo: fullName,
+              nome_usuario: username,
+            },
+          ]);
+
+        if (profileError) throw profileError;
+
+        toast.success('Cadastro realizado! Agora faça o seu login.');
+        setIsRegistering(false); // Volta automaticamente para a tela de login
+        setPassword('');
+      }
+    } catch (error: any) {
+      toast.error(error.message || 'Erro ao criar conta.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-900 px-4 py-12 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8 bg-white dark:bg-slate-800 p-8 rounded-xl shadow-lg border border-slate-100 dark:border-slate-700">
+        
+        {/* Cabeçalho */}
+        <div className="text-center">
+          <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white">
+            EduHorários
+          </h2>
+          <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
+            {isRegistering 
+              ? 'Crie sua conta para gerenciar horários' 
+              : 'Faça login para acessar o sistema'}
+          </p>
+        </div>
+
+        {/* Formulário único dinâmico */}
+        <form className="mt-8 space-y-4" onSubmit={isRegistering ? handleRegister : handleLogin}>
+          
+          {isRegistering && (
+            <>
+              {/* Campo Nome Completo */}
+              <div>
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">Nome Completo</label>
+                <input
+                  type="text"
+                  required
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  className="mt-1 block w-full rounded-md border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 px-3 py-2 text-slate-900 dark:text-white focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  placeholder="Ex: João Silva"
+                />
+              </div>
+
+              {/* Campo Nome de Usuário */}
+              <div>
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">Nome de Usuário</label>
+                <input
+                  type="text"
+                  required
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  className="mt-1 block w-full rounded-md border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 px-3 py-2 text-slate-900 dark:text-white focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  placeholder="Ex: joaosilva12"
+                />
+              </div>
+            </>
+          )}
+
+          {/* Campo E-mail (Serve para Login e Recuperação de Senha) */}
+          <div>
+            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
+              {isRegistering ? 'E-mail para Recuperação de Senha' : 'E-mail'}
+            </label>
+            <input
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="mt-1 block w-full rounded-md border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 px-3 py-2 text-slate-900 dark:text-white focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              placeholder="seuemail@escola.com"
+            />
+          </div>
+
+          {/* Campo Senha */}
+          <div>
+            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">Senha</label>
+            <input
+              type="password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="mt-1 block w-full rounded-md border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 px-3 py-2 text-slate-900 dark:text-white focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              placeholder="••••••••"
+            />
+          </div>
+
+          {/* Botão de Ação Principal */}
+          <div>
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+            >
+              {loading ? 'Processando...' : isRegistering ? 'Cadastrar Usuário' : 'Entrar no Sistema'}
+            </button>
+          </div>
+        </form>
+
+        {/* Alternador Inferior */}
+        <div className="text-center mt-4">
+          <button
+            type="button"
+            onClick={() => setIsRegistering(!isRegistering)}
+            className="text-sm text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 font-medium"
+          >
+            {isRegistering 
+              ? 'Já possui uma conta? Faça o Login' 
+              : 'Não tem uma conta? Cadastre-se aqui'}
+          </button>
+        </div>
+
+      </div>
+    </div>
+  );
+}
+3. Estrutura do Banco de Dados para Suportar essa Tela
+Para que os dados extras digitados (Nome completo e Nome de usuário) fiquem guardados separados da conta global, você deve rodar esse script no editor SQL do seu Supabase. Ele cria a tabela perfis_usuarios ligada diretamente ao sistema de e-mails nativo do Supabase:
+
+SQL
+CREATE TABLE perfis_usuarios (
+    id UUID REFERENCES auth.users ON DELETE CASCADE PRIMARY KEY,
+    nome_completo TEXT NOT NULL,
+    nome_usuario TEXT NOT NULL UNIQUE,
+    atualizado_em TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW())
+);
+
+-- Ativar segurança de isolamento por perfil
+ALTER TABLE perfis_usuarios ENABLE ROW LEVEL SECURITY;
+
+-- Política: Usuários só podem ler e alterar seu próprio perfil individual
+CREATE POLICY "Usuários gerenciam próprio perfil" ON perfis_usuarios
+    FOR ALL USING (auth.uid() = id);
+4. src/App.tsx (Configuração das Rotas Protegidas)
+Por fim, integre a nova tela ao roteamento do aplicativo usando o wouter com o Hash Roteador (que corrige o erro de tela em branco no GitHub Pages que resolvemos anteriormente):
+
+TypeScript
+import { Router, Route, Switch, Redirect } from "wouter";
+import { useHashLocation } from "wouter/use-hash-location";
+import AuthPage from "./pages/AuthPage";
+import DashboardLayout from "./pages/DashboardLayout"; // Seu layout de gestão atual
+
+export default function App() {
+  return (
+    <Router hook={useHashLocation}>
+      <Switch>
+        {/* Rota Inicial / Login / Cadastro */}
+        <Route path="/" component={AuthPage} />
+        
+        {/* Rota do seu sistema de horários que só deve abrir logado */}
+        <Route path="/dashboard" component={DashboardLayout} />
+
+        {/* Redireciona qualquer rota inválida para o login */}
+        <Route>
+          <Redirect to="/" />
+        </Route>
+      </Switch>
+    </Router>
+  );
+}
+Como isso garante perfis separados?
+Quando o usuário faz login, o token seguro dele fica guardado no navegador.
+
+Quando ele entra na rota /dashboard, você pode chamar supabase.from('perfis_usuarios').select('*') e o banco de dados enviará apenas o nome e preferências do usuário logado baseado no ID dele, impedindo completamente o cruzamento ou vazamento de dados de outras contas.

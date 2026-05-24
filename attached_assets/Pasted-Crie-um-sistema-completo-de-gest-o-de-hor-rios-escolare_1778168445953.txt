@@ -1,0 +1,128 @@
+Crie um sistema completo de gestão de horários escolares utilizando HTML, CSS e JavaScript moderno (ES6+), com arquitetura organizada, código limpo, modular e responsivo. O sistema deve funcionar totalmente no navegador sem depender de servidor externo inicialmente, utilizando LocalStorage ou IndexedDB para armazenamento dos dados.
+
+O sistema deve possuir as seguintes funcionalidades obrigatórias:
+
+Cadastro de Turmas:
+Criar, editar e excluir turmas.
+Campos: nome da turma, turno, série, ano letivo e observações.
+Salvar automaticamente os últimos dados selecionados pelo usuário para facilitar novos cadastros.
+Cadastro de Horários:
+Permitir configurar:
+quantidade de horários por dia (ex: 1º ao 6º horário);
+duração de cada aula em minutos;
+horário inicial do turno;
+intervalo/recreio;
+duração do intervalo;
+horários especiais.
+Gerar automaticamente a grade de horários com base nas configurações.
+Cadastro de Disciplinas e Matriz Curricular:
+Criar disciplinas com:
+nome;
+carga horária semanal;
+cor personalizada;
+abreviação.
+Vincular disciplina a uma ou mais turmas.
+Definir quantidade de aulas semanais por turma.
+Exibir a matriz curricular organizada por turma.
+Cadastro de Professores:
+Criar, editar e excluir professores.
+Campos:
+nome completo;
+disciplinas que leciona;
+turmas vinculadas;
+disponibilidade por dia e horário;
+carga horária máxima semanal.
+Permitir múltiplas disciplinas para o mesmo professor.
+Salvar automaticamente as últimas seleções feitas pelo usuário.
+Alocação Inteligente Automática:
+Criar algoritmo automático de geração de horários.
+Restrições obrigatórias:
+impedir choque de horários;
+impedir professor em duas turmas simultaneamente;
+respeitar disponibilidade do professor;
+respeitar carga horária da disciplina;
+evitar aulas repetidas consecutivas quando possível;
+distribuir aulas equilibradamente na semana.
+Mostrar conflitos encontrados.
+Permitir ajuste manual após geração automática.
+Visualização da Grade:
+Mostrar grade semanal completa:
+por turma;
+por professor.
+Exibir tabela organizada de segunda a sexta.
+Utilizar cores diferentes por disciplina.
+Layout limpo e fácil de interpretar.
+Impressão:
+Botão para imprimir:
+horário individual do professor;
+todos os professores;
+horário individual da turma;
+todas as turmas.
+Formatação automática para folha A4.
+Aproveitar o máximo do espaço da página.
+Remover elementos desnecessários na impressão.
+Exportação e Compartilhamento:
+Exportar horários em:
+PDF;
+JSON;
+backup completo.
+Importar backup posteriormente.
+Permitir compartilhamento em redes sociais através da geração de PDF/imagem.
+Responsividade:
+Interface totalmente responsiva.
+Funcionar bem em:
+celular;
+tablet;
+notebook;
+desktop.
+Utilizar:
+fontes grandes e legíveis;
+contraste elevado;
+botões acessíveis;
+menu lateral responsivo;
+tabelas adaptáveis.
+Estrutura Técnica:
+Utilizar:
+HTML5;
+CSS3 moderno;
+JavaScript modular;
+Organizar em:
+/css
+/js
+/components
+/data
+Criar componentes reutilizáveis.
+Utilizar tema moderno estilo dashboard administrativo.
+Implementar modo claro e escuro.
+Criar animações suaves e transições modernas.
+Recursos Extras:
+Dashboard inicial com estatísticas:
+quantidade de turmas;
+professores;
+disciplinas;
+conflitos de horário.
+Sistema de pesquisa e filtros.
+Toasts/notificações visuais.
+Confirmação antes de excluir dados.
+Autosave automático.
+Sistema preparado para futura integração com banco de dados e login.
+Qualidade do Código:
+Código completo e funcional.
+Comentado.
+Sem bibliotecas desnecessárias.
+Separar lógica, interface e armazenamento.
+Criar exemplos de dados já preenchidos para testes.
+Gerar todos os arquivos completos do projeto.
+
+Crie também:
+
+layout moderno;
+ícones;
+sidebar;
+navbar;
+telas organizadas;
+modal de cadastro;
+tabelas profissionais;
+sistema visual semelhante a aplicações SaaS modernas.
+
+O sistema deve parecer um software profissional pronto para uso escolar real.
