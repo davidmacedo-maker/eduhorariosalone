@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useTurmas, useDisciplinas, useProfessores, useAlocacoes, useMatrizCurricular, useConfiguracaoHorarios } from "@/store";
 import { runAllocation, detectConflicts } from "@/lib/schedule-utils";
 import type { Conflito } from "@/lib/schedule-utils";
@@ -6,7 +6,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Shuffle, AlertTriangle, CheckCircle, Trash2 } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
+import { Shuffle, AlertTriangle, CheckCircle, Trash2, BarChart3 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 
@@ -60,7 +61,10 @@ export default function Alocacao() {
     toast({ title: "Alocação removida" });
   }
 
-  const currentConflitos = detectConflicts(alocacoes, professores, disciplinas, turmas, matriz);
+  const currentConflitos = useMemo(
+    () => detectConflicts(alocacoes, professores, disciplinas, turmas, matriz),
+    [alocacoes, professores, disciplinas, turmas, matriz]
+  );
 
   const periods = Array.from({ length: config.quantidadeHorariosPorDia }, (_, i) => i + 1);
 
@@ -221,6 +225,62 @@ export default function Alocacao() {
             <p className="text-sm mt-1">Clique em "Gerar Horários Automaticamente" para iniciar</p>
           </CardContent>
         </Card>
+      )}
+
+      {/* Professor workload report */}
+      {alocacoes.length > 0 && professores.length > 0 && (
+        <div className="space-y-4">
+          <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
+            <BarChart3 className="w-5 h-5" />
+            Carga Horária por Professor
+          </h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {professores.map((prof) => {
+              const atual = alocacoes.filter((a) => a.professorId === prof.id).length;
+              const max = prof.cargaHorariaMaximaSemanal;
+              const pct = Math.min(100, Math.round((atual / max) * 100));
+              const overloaded = atual > max;
+              const color = overloaded
+                ? "text-red-600 dark:text-red-400"
+                : pct >= 85
+                ? "text-amber-600 dark:text-amber-400"
+                : "text-green-600 dark:text-green-400";
+              const profDiscs = prof.disciplinas
+                .map((dId) => disciplinas.find((d) => d.id === dId)?.abreviacao)
+                .filter(Boolean)
+                .join(", ");
+              return (
+                <Card key={prof.id} data-testid={`workload-${prof.id}`}>
+                  <CardContent className="p-4 space-y-3">
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="min-w-0">
+                        <p className="font-semibold text-sm truncate">{prof.nomeCompleto}</p>
+                        <p className="text-xs text-muted-foreground">{profDiscs}</p>
+                      </div>
+                      <Badge
+                        variant={overloaded ? "destructive" : "secondary"}
+                        className="shrink-0 text-xs"
+                      >
+                        {atual}/{max}h
+                      </Badge>
+                    </div>
+                    <div className="space-y-1">
+                      <Progress value={pct} className="h-2" />
+                      <div className="flex justify-between text-xs">
+                        <span className={color}>
+                          {overloaded
+                            ? `Excedido em ${atual - max} aula(s)`
+                            : `${pct}% da carga`}
+                        </span>
+                        <span className="text-muted-foreground">{max} aulas/sem</span>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        </div>
       )}
 
       <AlertDialog open={clearDialogOpen} onOpenChange={setClearDialogOpen}>

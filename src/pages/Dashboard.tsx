@@ -1,9 +1,10 @@
+import { useMemo } from "react";
 import { useTurmas, useDisciplinas, useProfessores, useAlocacoes, useMatrizCurricular } from "@/store";
 import { detectConflicts } from "@/lib/schedule-utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Users, BookOpen, GraduationCap, AlertTriangle, Grid3x3, Shuffle, Clock, Download } from "lucide-react";
+import { Users, BookOpen, GraduationCap, AlertTriangle, Grid3x3, Shuffle, Clock, Download, CalendarDays } from "lucide-react";
 import { Link } from "wouter";
 
 export default function Dashboard() {
@@ -13,7 +14,10 @@ export default function Dashboard() {
   const [alocacoes] = useAlocacoes();
   const [matriz] = useMatrizCurricular();
 
-  const conflitos = detectConflicts(alocacoes, professores, disciplinas, turmas, matriz);
+  const conflitos = useMemo(
+    () => detectConflicts(alocacoes, professores, disciplinas, turmas, matriz),
+    [alocacoes, professores, disciplinas, turmas, matriz]
+  );
 
   const stats = [
     {
@@ -41,12 +45,20 @@ export default function Dashboard() {
       href: "/professores",
     },
     {
+      label: "Aulas",
+      value: new Set(alocacoes.map(a => `${a.diaSemana}-${a.horario}`)).size,
+      icon: CalendarDays,
+      color: "text-amber-600 dark:text-amber-400",
+      bg: "bg-amber-50 dark:bg-amber-950",
+      href: "/grade",
+    },
+    {
       label: "Conflitos",
       value: conflitos.length,
       icon: AlertTriangle,
       color: conflitos.length > 0 ? "text-red-600 dark:text-red-400" : "text-muted-foreground",
       bg: conflitos.length > 0 ? "bg-red-50 dark:bg-red-950" : "bg-muted",
-      href: "/alocacao",
+      href: "/conflitos",
     },
   ];
 
@@ -69,12 +81,12 @@ export default function Dashboard() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
+        <h1 className="text-2xl font-bold text-foreground">Painel</h1>
         <p className="text-muted-foreground mt-1">Visão geral do sistema de gestão de horários</p>
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
         {stats.map((stat) => {
           const Icon = stat.icon;
           return (

@@ -75,43 +75,43 @@
   --elevate-1: rgba(0,0,0, .03);
   --elevate-2: rgba(0,0,0, .08);
 
-  --background: 226 50% 98%;
-  --foreground: 233 47% 15%;
-  --border: 226 25% 85%;
-  --input: 226 25% 85%;
-  --ring: 233 47% 35%;
+  --background: 220 20% 97%;
+  --foreground: 220 25% 12%;
+  --border: 220 15% 87%;
+  --input: 220 15% 87%;
+  --ring: 219 78% 50%;
 
   --card: 0 0% 100%;
-  --card-foreground: 233 47% 15%;
-  --card-border: 226 25% 85%;
+  --card-foreground: 220 25% 12%;
+  --card-border: 220 15% 87%;
 
   --popover: 0 0% 100%;
-  --popover-foreground: 233 47% 15%;
-  --popover-border: 226 25% 85%;
+  --popover-foreground: 220 25% 12%;
+  --popover-border: 220 15% 87%;
 
-  --primary: 233 47% 35%;
+  --primary: 219 78% 50%;
   --primary-foreground: 0 0% 100%;
 
-  --secondary: 226 30% 90%;
-  --secondary-foreground: 233 47% 25%;
+  --secondary: 220 15% 92%;
+  --secondary-foreground: 220 25% 20%;
 
-  --muted: 226 20% 92%;
-  --muted-foreground: 233 20% 45%;
+  --muted: 220 15% 94%;
+  --muted-foreground: 220 15% 45%;
 
-  --accent: 226 30% 90%;
-  --accent-foreground: 233 47% 25%;
+  --accent: 219 78% 94%;
+  --accent-foreground: 219 78% 35%;
 
-  --destructive: 0 84% 60%;
+  --destructive: 0 84% 58%;
   --destructive-foreground: 0 0% 100%;
 
   --sidebar: 0 0% 100%;
-  --sidebar-foreground: 233 47% 15%;
-  --sidebar-border: 226 25% 85%;
-  --sidebar-primary: 233 47% 35%;
+  --sidebar-foreground: 220 25% 18%;
+  --sidebar-border: 220 15% 88%;
+  --sidebar-primary: 219 78% 50%;
   --sidebar-primary-foreground: 0 0% 100%;
-  --sidebar-accent: 226 30% 90%;
-  --sidebar-accent-foreground: 233 47% 25%;
-  --sidebar-ring: 233 47% 35%;
+  --sidebar-accent: 219 78% 95%;
+  --sidebar-accent-foreground: 219 78% 35%;
+  --sidebar-ring: 219 78% 50%;
 
   --chart-1: 233 47% 35%;
   --chart-2: 199 89% 48%;
@@ -217,9 +217,10 @@
 }
 
 @media print {
-  body {
-    background: white;
-    color: black;
+  html, body {
+    background: white !important;
+    background-color: white !important;
+    color: black !important;
   }
   .no-print, [data-print-hide="true"], aside, header {
     display: none !important;
@@ -295,5 +296,87 @@
   .border.active-elevate-2:not(.no-active-interaction-elevate)::after,
   .border.hover-elevate:not(.no-hover-interaction-elevate)::after {
     inset: -1px;
+  }
+}
+
+@media print {
+  /* Hide navigation chrome */
+  .no-print,
+  [data-print-hide="true"],
+  .print-hide {
+    display: none !important;
+  }
+
+  /* Fix layout for printing: remove fixed height + overflow clipping */
+  html, body {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* Root flex layout: hide sidebar, let content fill page */
+  body > div,
+  #root > div {
+    display: block !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* Sidebar: always hidden */
+  aside,
+  [data-sidebar],
+  .sidebar-wrapper {
+    display: none !important;
+  }
+
+  /* Main content: full width, no overflow clip, auto height */
+  main {
+    flex: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+    padding: 0.5rem !important;
+    margin: 0 !important;
+  }
+
+  /* Remove overflow clipping from table wrappers */
+  .overflow-x-auto {
+    overflow: visible !important;
+  }
+
+  /* Cards: white background, visible borders */
+  [class*="rounded"],
+  .border {
+    border-radius: 0 !important;
+  }
+
+  /* Table: full width, no page-break inside rows */
+  table {
+    width: 100% !important;
+  }
+
+  tr {
+    break-inside: avoid !important;
+  }
+
+  /* Muted text: readable in print */
+  [class*="text-muted-foreground"] {
+    color: #555 !important;
+  }
+
+  /* Allow background colors and images to print */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Force page and layout containers to be white — prevents app theme color bleeding */
+  html, body,
+  body > div, body > div > div,
+  #root, #root > div, #root > div > div,
+  main, main > div, .overflow-x-auto {
+    background: white !important;
+    background-color: white !important;
+    box-shadow: none !important;
   }
 }

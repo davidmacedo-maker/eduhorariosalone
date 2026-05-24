@@ -1,4 +1,26 @@
 export type Turno = "manha" | "tarde" | "noite";
+export type TipoVinculo = "efetivo" | "designado";
+
+export interface HorarioRaw {
+  id: string;           // chave interna: dia_turma_aula
+  turno: string;        // label: "Matutino" | "Vespertino" | "Noturno"
+  turma: string;
+  disciplina: string;
+  professor: string;
+  dia: string;
+  aula: number;
+  horarioInicio?: string; // ex: "07:00" — coluna horario_inicio do CSV
+  horarioFim?: string;    // ex: "07:50" — coluna horario_fim do CSV
+  masp?: string;
+  cargo?: string;
+  importadoEm: string;  // ISO timestamp
+}
+
+/**
+ * Estrutura hierárquica que espelha o Firebase /horarios/TURNO/idRegistro.
+ * Cada turno fica numa "pasta" separada — Matutino nunca sobrescreve Vespertino.
+ */
+export type BancoDeDados = Record<string, Record<string, HorarioRaw>>;
 
 export interface Turma {
   id: string;
@@ -10,12 +32,29 @@ export interface Turma {
 }
 
 export interface ConfiguracaoHorarios {
+  // ── Turno Matutino ──────────────────────────────
   quantidadeHorariosPorDia: number;
   duracaoAulaMinutos: number;
   horarioInicial: string;
   possuiIntervalo: boolean;
-  horarioIntervalo: number; // After which period
+  horarioIntervalo: number;
   duracaoIntervaloMinutos: number;
+  // ── Turno Vespertino ─────────────────────────────
+  habilitarTarde: boolean;
+  horarioInicialTarde: string;
+  quantidadeHorariosPorDiaTarde: number;
+  duracaoAulaMinutosTarde: number;
+  possuiIntervaloTarde: boolean;
+  horarioIntervaloTarde: number;
+  duracaoIntervaloMinutosTarde: number;
+  // ── Turno Noturno ────────────────────────────────
+  habilitarNoite: boolean;
+  horarioInicialNoite: string;
+  quantidadeHorariosPorDiaNoite: number;
+  duracaoAulaMinutosNoite: number;
+  possuiIntervaloNoite: boolean;
+  horarioIntervaloNoite: number;
+  duracaoIntervaloMinutosNoite: number;
 }
 
 export interface Disciplina {
@@ -33,14 +72,17 @@ export interface MatrizCurricular {
 }
 
 export interface Disponibilidade {
-  [dia: string]: number[]; // "segunda": [1, 2, 3]
+  [dia: string]: number[];
 }
 
 export interface Professor {
   id: string;
   nomeCompleto: string;
-  disciplinas: string[]; // array of disciplinaId
-  turmas: string[]; // array of turmaId
+  masp?: string;
+  dataAdmissao?: string;
+  tipoVinculo?: TipoVinculo;
+  disciplinas: string[];
+  turmas: string[];
   disponibilidade: Disponibilidade;
   cargaHorariaMaximaSemanal: number;
 }
@@ -50,6 +92,16 @@ export interface Alocacao {
   turmaId: string;
   disciplinaId: string;
   professorId: string;
-  diaSemana: string; // "segunda", "terca", etc.
-  horario: number; // 1-6
+  diaSemana: string;
+  horario: number;
+  isLocked?: boolean;
+}
+
+export interface RegistroPonto {
+  id: string;
+  alocacaoId: string;
+  data: string;
+  presente: boolean;
+  observacao?: string;
+  valor?: string;
 }

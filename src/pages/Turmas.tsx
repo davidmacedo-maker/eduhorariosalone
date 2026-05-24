@@ -48,7 +48,7 @@ export default function Turmas() {
       nome: "",
       turno: "manha",
       serie: "",
-      anoLetivo: 2025,
+      anoLetivo: new Date().getFullYear(),
       observacoes: "",
     },
   });
@@ -56,7 +56,7 @@ export default function Turmas() {
   function openCreate() {
     const lastTurno = (localStorage.getItem("edu_last_turno") as Turno) || "manha";
     const lastSerie = localStorage.getItem("edu_last_serie") || "";
-    form.reset({ nome: "", turno: lastTurno, serie: lastSerie, anoLetivo: 2025, observacoes: "" });
+    form.reset({ nome: "", turno: lastTurno, serie: lastSerie, anoLetivo: new Date().getFullYear(), observacoes: "" });
     setEditingTurma(null);
     setModalOpen(true);
   }
