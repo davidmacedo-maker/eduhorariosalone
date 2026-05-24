@@ -1,16 +1,25 @@
 {
-  "extends": "./tsconfig.base.json",
-  "compileOnSave": false,
-  "files": [],
-  "references": [
-    {
-      "path": "./src/lib/db"
-    },
-    {
-      "path": "./src/lib/api-client-react"
-    },
-    {
-      "path": "./src/lib/api-zod"
-    }
-  ]
+  "compilerOptions": {
+    "target": "ES2022",
+    "useDefineForClassFields": true,
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+
+    /* Bundler mode (essencial para Vite) */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* Linting e Segurança */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "declaration": true,
+    "declarationMap": true
+  }
 }
