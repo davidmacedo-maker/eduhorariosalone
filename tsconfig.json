@@ -1,22 +1,47 @@
 {
-  "extends": "../../tsconfig.base.json",
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "build", "dist", "**/*.test.ts"],
   "compilerOptions": {
-    "noEmit": true,
-    "jsx": "preserve",
-    "lib": ["esnext", "dom", "dom.iterable"],
-    "resolveJsonModule": true,
-    "allowImportingTsExtensions": true,
+    "target": "ES2022",
+    "useDefineForClassFields": true,
+
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ES2022"
+    ],
+
+    "module": "ESNext",
     "moduleResolution": "bundler",
-    "types": ["node", "vite/client"],
+
+    "baseUrl": ".",
+
     "paths": {
-      "@/*": ["./src/*"]
-    }
+      "@/*": ["src/*"]
+    },
+
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+
+    "isolatedModules": true,
+    "noEmit": true,
+
+    "jsx": "react-jsx",
+
+    "skipLibCheck": true,
+
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+
+    "strict": false,
+    "noImplicitAny": false,
+
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+
+    "forceConsistentCasingInFileNames": true
   },
-  "references": [
-    {
-      "path": "../../lib/api-client-react"
-    }
+
+  "include": [
+    "src",
+    "vite.config.ts"
   ]
 }
