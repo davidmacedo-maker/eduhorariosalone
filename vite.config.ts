@@ -9,13 +9,19 @@ const __dirname = path.dirname(__filename);
 
 export default defineConfig({
   base: "/",
-  plugins: [react(), tailwindcss()],
+
+  plugins: [
+    react(),
+    tailwindcss(),
+  ],
+
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
     dedupe: ["react", "react-dom"],
   },
+
   build: {
     outDir: "dist",
     assetsDir: "assets",
@@ -23,8 +29,22 @@ export default defineConfig({
     sourcemap: false,
     chunkSizeWarningLimit: 1000,
   },
+
   server: {
     port: 5173,
     host: "0.0.0.0",
+  },
+
+  preview: {
+    port: 4173,
+    host: "0.0.0.0",
+  },
+
+  optimizeDeps: {
+    include: [
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+    ],
   },
 });
