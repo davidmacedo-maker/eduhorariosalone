@@ -1,4 +1,4 @@
-import type { Turma, Disciplina, Professor, Alocacao, MatrizCurricular, ConfiguracaoHorarios } from "../types";
+import type { Turma, Disciplina, Professor, Alocacao, MatrizCurricular, ConfiguracaoHorarios } from "@/types";
 
 export interface TimeSlot {
   period: number;

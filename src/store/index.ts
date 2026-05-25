@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import type { Turma, Disciplina, Professor, Alocacao, MatrizCurricular, ConfiguracaoHorarios, RegistroPonto, HorarioRaw, BancoDeDados } from "../types";
+import type { Turma, Disciplina, Professor, Alocacao, MatrizCurricular, ConfiguracaoHorarios, RegistroPonto, HorarioRaw, BancoDeDados } from "@/types";
 
 const SCHEMA_VERSION = "4";
 
