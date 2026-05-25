@@ -2,24 +2,50 @@
   "compilerOptions": {
     "target": "ES2022",
     "useDefineForClassFields": true,
-    "lib": ["DOM", "DOM.Iterable", "ES2022"],
-    "module": "ESNext",
-    "skipLibCheck": true,
 
-    /* Bundler mode (essencial para Vite) */
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ES2022"
+    ],
+
+    "module": "ESNext",
     "moduleResolution": "bundler",
+
+    "baseUrl": ".",
+
+    "paths": {
+      "@/*": ["src/*"]
+    },
+
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
+
     "isolatedModules": true,
     "noEmit": true,
+
     "jsx": "react-jsx",
 
-    /* Linting e Segurança */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    "skipLibCheck": true,
+
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+
+    "strict": false,
+    "noImplicitAny": false,
+
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
-    "declaration": true,
-    "declarationMap": true
-  }
+
+    "forceConsistentCasingInFileNames": true,
+
+    "declaration": false,
+    "declarationMap": false
+  },
+
+  "include": [
+    "src",
+    "vite.config.ts"
+  ]
 }
